@@ -1,0 +1,10 @@
+apiVersion: "sparkoperator.k8s.io/v1beta1"
+kind: SparkApplication
+metadata:
+  name: {{ include "spark-app.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+  imagePullPolicy: {{ .Values.image.pullPolicy }}
+  {{- $spec := omit .Values.spec "image" "imagePullPolicy"}}
+  {{ toYaml $spec | indent 2 | trim }}
